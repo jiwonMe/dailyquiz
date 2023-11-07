@@ -1,15 +1,16 @@
 import styled from 'styled-components';
-import { Heading2, Heading3 } from '../designs/typographys';
+import { Description, Heading2, Heading3 } from '../designs/typographys';
 
 import ChoiceContainer from '../components/ChoiceContainer';
 import Button from '../components/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Problem } from '../types/Problem';
 import Toast from '../components/Toast';
 
 import { FiSmile, FiFrown } from 'react-icons/fi';
 import theme from '../designs/theme';
 import ProgressBar from '../components/ProgressBar';
+import TimeDisplay from '../components/TimeDisplay';
 
 const QuizContentPage = () => {
   const [problems] = useState<Problem[]>([
@@ -55,6 +56,18 @@ const QuizContentPage = () => {
     number | null
   >(null);
 
+  const [tick, setTick] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTick(tick + 1);
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  });
+
   return (
     <QuizContentPageLayout>
       {openAnswer && (
@@ -72,6 +85,14 @@ const QuizContentPage = () => {
           )}
         </Toast>
       )}
+      <TopInfoBox>
+        <TimeDisplay tick={tick} />
+        <Description>
+          {/* remain problems */}
+          {problems.length - problemNumber - 1}문제 남음
+        </Description>
+      </TopInfoBox>
+
       <ProgressBar progressed={((problemNumber + 1) / problems.length) * 100} />
 
       <ProblemContentBox>
@@ -155,6 +176,19 @@ const QuizContentPageLayout = styled.div`
     width: calc(100% - 72px);
 
     margin-bottom: 60px;
+  }
+`;
+
+const TopInfoBox = styled.div`
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 8px;
+
+  ${Description} {
+    font-weight: 500;
   }
 `;
 
