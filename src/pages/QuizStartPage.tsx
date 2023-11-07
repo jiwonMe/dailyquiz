@@ -3,9 +3,9 @@ import Button from '../components/Button';
 import { Description, Heading2 } from '../designs/typographys';
 import test_image from '../assets/img/test_image.png';
 
-const MainPage = () => {
+const QuizStartPage = () => {
   return (
-    <MainPageLayout>
+    <QuizStartPageLayout>
       <QuizImageBox src={test_image} />
       <TitleBox>
         <Heading2>페스티벌 중독자 테스트</Heading2>
@@ -15,13 +15,13 @@ const MainPage = () => {
         <Description>선택형 5문항, 제한시간 없음</Description>
       </TestDescriptionBox>
       <Button variant="primary">시작하기</Button>
-    </MainPageLayout>
+    </QuizStartPageLayout>
   );
 };
 
-export default MainPage;
+export default QuizStartPage;
 
-const MainPageLayout = styled.div`
+const QuizStartPageLayout = styled.div`
   text-align: center;
   padding: 36px;
   padding-top: 80px;
