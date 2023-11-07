@@ -5,6 +5,10 @@ import ChoiceContainer from '../components/ChoiceContainer';
 import Button from '../components/Button';
 import { useState } from 'react';
 import { Problem } from '../types/Problem';
+import Toast from '../components/Toast';
+
+import { FiSmile, FiFrown } from 'react-icons/fi';
+import theme from '../designs/theme';
 
 const QuizContentPage = () => {
   const [problems] = useState<Problem[]>([
@@ -52,6 +56,21 @@ const QuizContentPage = () => {
 
   return (
     <QuizContentPageLayout>
+      {openAnswer && (
+        <Toast>
+          {selectedChoiceNumber === problems[problemNumber].answer ? (
+            <ToastMessageBox>
+              <FiSmile size={24} color={theme.colors.green500} />
+              정답입니다!
+            </ToastMessageBox>
+          ) : (
+            <ToastMessageBox>
+              <FiFrown size={24} color={theme.colors.red500} />
+              틀렸습니다...
+            </ToastMessageBox>
+          )}
+        </Toast>
+      )}
       <ProblemContentBox>
         <Heading2>Q{problemNumber + 1}</Heading2>
         <Heading3>{problems[problemNumber].statement}</Heading3>
@@ -146,4 +165,12 @@ const ProblemContentBox = styled.div`
 
   align-items: center;
   justify-content: center;
+`;
+
+const ToastMessageBox = styled.div`
+  display: flex;
+  gap: 8px;
+
+  justify-content: center;
+  align-items: center;
 `;
