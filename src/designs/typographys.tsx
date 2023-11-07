@@ -3,7 +3,7 @@ import colors from './colors';
 
 const defaultFontCSS = css`
   font-family: 'Pretendard', Noto Sans KR, sans-serif;
-  color: ${colors.gray900};
+  margin: 0;
 `;
 
 const Heading2 = styled.h2`
