@@ -7,7 +7,7 @@ import ProgressCircle from '../components/ProgressCircle';
 const QuizResultPage = () => {
   return (
     <QuizResultPageLayout>
-      <VerticalSpace size={60} />
+      <VerticalSpace size={36} />
       <TtileBox>
         <Heading2>테스트 결과</Heading2>
         <Body>페스티벌 중독 테스트</Body>
@@ -31,6 +31,7 @@ const QuizResultPage = () => {
           <Body>1개</Body>
         </CorrectnessInfoBox>
       </InfoBoxWrapper>
+      <VerticalSpace size={32} />
       <ButtonBox>
         <Button variant="secondary">오답노트</Button>
         <Button variant="primary">확인</Button>
@@ -52,7 +53,7 @@ const InfoBoxWrapper = styled.div`
 const CorrectnessInfoBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 
   ${Body} {
     font-weight: 500;
@@ -83,14 +84,14 @@ const ButtonBox = styled.div`
 
   gap: 8px;
 
-  position: absolute;
-  bottom: 0;
+  /* position: absolute; */
+  /* bottom: 0; */
 
   /* center */
-  left: 50%;
-  transform: translateX(-50%);
+  /* left: 50%; */
+  /* transform: translateX(-50%); */
 
-  width: calc(100% - 72px);
+  /* width: calc(100% - 72px); */
 
   margin-bottom: 60px;
 `;
