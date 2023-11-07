@@ -12,7 +12,10 @@ interface ButtonProps {
 
 const Button = (props: ButtonProps) => {
   return (
-    <ButtonLayout {...props}>
+    <ButtonLayout
+      {...props}
+      onClick={props.disabled ? undefined : props.onClick}
+    >
       <ButtonText>{props.children}</ButtonText>
     </ButtonLayout>
   );
@@ -22,35 +25,48 @@ export default styled(Button)``;
 
 const ButtonLayout = styled.button<{
   variant: 'primary' | 'secondary';
+  disabled?: boolean;
 }>`
   width: 100%;
   height: 48px;
 
   border-radius: 8px;
 
-  ${({ variant, theme }) => {
+  ${({ variant, disabled, theme }) => {
     switch (variant) {
     default:
     case 'primary':
-      return css`
-          background-color: ${theme.colors.green500};
-          border: none;
-          color: ${theme.colors.white};
+      return disabled
+        ? css`
+              background-color: ${theme.colors.gray300};
+              border: none;
+              color: ${theme.colors.gray500};
+            `
+        : css`
+              background-color: ${theme.colors.green500};
+              border: none;
+              color: ${theme.colors.white};
 
-          &:hover {
-            background-color: ${theme.colors.green300};
-          }
-        `;
+              &:hover {
+                background-color: ${theme.colors.green300};
+              }
+            `;
     case 'secondary':
-      return css`
-          background-color: transparent;
-          border: 1px solid ${theme.colors.green500};
-          color: ${theme.colors.green500};
+      return disabled
+        ? css`
+              background-color: transparent;
+              border: 1px solid ${theme.colors.gray500};
+              color: ${theme.colors.gray500};
+            `
+        : css`
+              background-color: transparent;
+              border: 1px solid ${theme.colors.green500};
+              color: ${theme.colors.green500};
 
-          &:hover {
-            background-color: ${theme.colors.green100};
-          }
-        `;
+              &:hover {
+                background-color: ${theme.colors.green100};
+              }
+            `;
     }
   }}
 `;

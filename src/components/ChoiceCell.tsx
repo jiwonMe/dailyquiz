@@ -3,6 +3,7 @@ import { Description } from '../designs/typographys';
 
 interface ChoiceCellProps {
   variant?: 'unselected' | 'selected' | 'correct' | 'wrong';
+  onClick?: () => void;
   children: React.ReactNode;
 }
 

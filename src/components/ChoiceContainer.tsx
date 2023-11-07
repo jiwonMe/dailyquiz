@@ -2,15 +2,45 @@ import styled from 'styled-components';
 import ChoiceCell from './ChoiceCell';
 import { Description } from '../designs/typographys';
 
-const ChoiceContainer = () => {
+interface ChoiceContainerProps {
+  choices: string[];
+  selectedChoice: string | null;
+  answerChoice: string | null;
+
+  openAnswer: boolean;
+  onSelectChoice: (choiceNumber: number) => void;
+
+  className?: string;
+}
+
+const ChoiceContainer = (props: ChoiceContainerProps) => {
   return (
     <ChoiceContainerLayout>
       <Description>다음 중 하나를 고르세요</Description>
       <ChoiceCellBox>
-        <ChoiceCell>스마트폰 어플리케이션</ChoiceCell>
-        <ChoiceCell>데스크탑 웹페이지</ChoiceCell>
-        <ChoiceCell variant="correct">대리 티케팅</ChoiceCell>
-        <ChoiceCell variant="wrong">매크로 프로그램</ChoiceCell>
+        {props.choices.map((choice) => (
+          <ChoiceCell
+            key={choice}
+            variant={
+              props.openAnswer
+                ? choice === props.answerChoice
+                  ? 'correct'
+                  : choice === props.selectedChoice
+                    ? 'wrong'
+                    : 'unselected'
+                : choice === props.selectedChoice
+                  ? 'selected'
+                  : 'unselected'
+            }
+            onClick={() =>
+              props.openAnswer
+                ? undefined
+                : props.onSelectChoice(props.choices.indexOf(choice))
+            }
+          >
+            {choice}
+          </ChoiceCell>
+        ))}
       </ChoiceCellBox>
     </ChoiceContainerLayout>
   );
