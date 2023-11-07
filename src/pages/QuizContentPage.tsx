@@ -9,6 +9,7 @@ import Toast from '../components/Toast';
 
 import { FiSmile, FiFrown } from 'react-icons/fi';
 import theme from '../designs/theme';
+import ProgressBar from '../components/ProgressBar';
 
 const QuizContentPage = () => {
   const [problems] = useState<Problem[]>([
@@ -71,6 +72,8 @@ const QuizContentPage = () => {
           )}
         </Toast>
       )}
+      <ProgressBar progressed={((problemNumber + 1) / problems.length) * 100} />
+
       <ProblemContentBox>
         <Heading2>Q{problemNumber + 1}</Heading2>
         <Heading3>{problems[problemNumber].statement}</Heading3>
@@ -165,6 +168,8 @@ const ProblemContentBox = styled.div`
 
   align-items: center;
   justify-content: center;
+
+  word-break: keep-all;
 `;
 
 const ToastMessageBox = styled.div`
