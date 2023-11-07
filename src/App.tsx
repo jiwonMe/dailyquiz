@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import QuizStartPage from './pages/QuizStartPage';
+import QuizPage from './pages/QuizPage';
 import MainPage from './pages/MainPage';
 import MobileView from './components/MobileView';
 import { ThemeProvider } from 'styled-components';
@@ -13,7 +13,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/:id" element={<QuizStartPage />} />
+            <Route path="/:quizId" element={<QuizPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

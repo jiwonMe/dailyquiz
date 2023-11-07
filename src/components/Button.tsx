@@ -18,7 +18,7 @@ const Button = (props: ButtonProps) => {
   );
 };
 
-export default Button;
+export default styled(Button)``;
 
 const ButtonLayout = styled.button<{
   variant: 'primary' | 'secondary';

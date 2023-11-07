@@ -15,7 +15,7 @@ const Heading2 = styled.h2`
 
 const Heading3 = styled.h3`
   ${defaultFontCSS}
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.25;
 `;

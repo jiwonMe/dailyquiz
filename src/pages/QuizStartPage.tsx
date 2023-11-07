@@ -3,7 +3,11 @@ import Button from '../components/Button';
 import { Description, Heading2 } from '../designs/typographys';
 import test_image from '../assets/img/test_image.png';
 
-const QuizStartPage = () => {
+interface QuizStartPageProps {
+  onClickStartButton: () => void;
+}
+
+const QuizStartPage = (props: QuizStartPageProps) => {
   return (
     <QuizStartPageLayout>
       <QuizImageBox src={test_image} />
@@ -14,7 +18,9 @@ const QuizStartPage = () => {
       <TestDescriptionBox>
         <Description>선택형 5문항, 제한시간 없음</Description>
       </TestDescriptionBox>
-      <Button variant="primary">시작하기</Button>
+      <Button variant="primary" onClick={props.onClickStartButton}>
+        시작하기
+      </Button>
     </QuizStartPageLayout>
   );
 };

@@ -28,7 +28,7 @@ const ViewportLayout = styled.div`
   flex-direction: column;
 
   width: 100%;
-  max-width: 350px;
+  max-width: 500px;
 
   height: 100%;
 
