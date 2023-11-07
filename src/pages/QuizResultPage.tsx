@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import Button from '../components/Button';
 import VerticalSpace from '../components/VerticalSpace';
-import { Body, Heading2 } from '../designs/typographys';
+import { Body, Description, Heading2 } from '../designs/typographys';
+import ProgressCircle from '../components/ProgressCircle';
 
 const QuizResultPage = () => {
   return (
@@ -11,8 +12,25 @@ const QuizResultPage = () => {
         <Heading2>테스트 결과</Heading2>
         <Body>페스티벌 중독 테스트</Body>
       </TtileBox>
-      <h2>당신은 10개의 문제 중 8개를 맞췄습니다.</h2>
-      <VerticalSpace size={60} />
+      <ChartBox>
+        <ProgressCircle progress={80} />
+        <ScoreBox>
+          <ScoreText>80점</ScoreText>
+          <Description>2분 32초</Description>
+        </ScoreBox>
+      </ChartBox>
+      <VerticalSpace size={32} />
+
+      <InfoBoxWrapper>
+        <CorrectnessInfoBox>
+          <Description>맞은 개수</Description>
+          <Body>4개</Body>
+        </CorrectnessInfoBox>
+        <CorrectnessInfoBox>
+          <Description>틀린 개수</Description>
+          <Body>1개</Body>
+        </CorrectnessInfoBox>
+      </InfoBoxWrapper>
       <ButtonBox>
         <Button variant="secondary">오답노트</Button>
         <Button variant="primary">확인</Button>
@@ -22,6 +40,42 @@ const QuizResultPage = () => {
 };
 
 export default QuizResultPage;
+
+const InfoBoxWrapper = styled.div`
+  display: flex;
+
+  justify-content: center;
+
+  gap: 72px;
+`;
+
+const CorrectnessInfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  ${Body} {
+    font-weight: 500;
+  }
+`;
+
+const ScoreText = styled(Heading2)`
+  color: ${({ theme }) => theme.colors.green500};
+  font-size: 2.25rem;
+`;
+
+const ScoreBox = styled.div`
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const ChartBox = styled.div`
+  position: relative;
+
+  width: 100%;
+`;
 
 const ButtonBox = styled.div`
   display: flex;

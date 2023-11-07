@@ -6,7 +6,7 @@ import QuizResultPage from './QuizResultPage';
 // import QuizContentPage from './QuizContentPage';
 
 const QuizPage = () => {
-  const [problemNumber, setProblemNumber] = useState(5);
+  const [problemNumber, setProblemNumber] = useState(-1); // -1: before start, 0 ~ 4: problem number, 5: result
 
   const [problems] = useState<Problem[]>([
     {
