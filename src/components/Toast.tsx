@@ -1,6 +1,6 @@
 // Toast.tsx
 import { useState, useEffect } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { Description } from '../designs/typographys';
 
 interface ToastProps {
@@ -36,22 +36,10 @@ const Toast = ({ children, duration = 3000 }: ToastProps) => {
 
 export default styled(Toast)``;
 
-const fadeIn = keyframes`
-from {
-  top: 0;
-  opacity: 0;
-}
-to {
-  top: 20px;
-  opacity: 1;
-}
-`;
-
 const ToastLayout = styled.div<{ show: boolean }>`
   position: fixed;
   z-index: 1000;
 
-  top: ${(props) => (props.show ? '20px' : '0px')};
   left: 50%;
   transform: translateX(-50%);
 
@@ -68,9 +56,19 @@ const ToastLayout = styled.div<{ show: boolean }>`
 
   background: ${({ theme }) => theme.colors.gray700};
   color: white;
-  opacity: ${(props) => (props.show ? '1' : '0')};
 
-  animation: ${fadeIn} 0.5s ease-out;
+  animation: fadeIn 0.5s ease-out;
+  @keyframes fadeIn {
+    from {
+      top: 0;
+      opacity: 0;
+    }
+    to {
+      top: 36px;
+      opacity: 1;
+    }
+  }
+
   transition: opacity 0.5s, top 0.5s;
 
   pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
