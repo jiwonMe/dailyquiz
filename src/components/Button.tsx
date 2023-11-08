@@ -38,7 +38,7 @@ const ButtonLayout = styled.button<{
     case 'primary':
       return disabled
         ? css`
-              background-color: ${theme.colors.gray300};
+              background-color: ${theme.colors.gray100};
               border: none;
               color: ${theme.colors.gray300};
             `
