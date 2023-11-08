@@ -47,7 +47,7 @@ const ButtonLayout = styled.button<{
               border: none;
               color: ${theme.colors.white};
 
-              &:hover {
+              &:active {
                 background-color: ${theme.colors.green300};
               }
             `;
@@ -63,7 +63,7 @@ const ButtonLayout = styled.button<{
               border: 1px solid ${theme.colors.green500};
               color: ${theme.colors.green500};
 
-              &:hover {
+              &:active {
                 background-color: ${theme.colors.green100};
               }
             `;
