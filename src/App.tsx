@@ -5,6 +5,7 @@ import MainPage from './pages/MainPage';
 import MobileView from './components/MobileView';
 import { ThemeProvider } from 'styled-components';
 import theme from './designs/theme';
+import QuizCorrectNotePage from './pages/QuizCorrectNotePage';
 
 const App = () => {
   return (
@@ -14,6 +15,10 @@ const App = () => {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/quiz/:quizId" element={<QuizPage />} />
+            <Route
+              path="/quiz/:quizId/correct-note"
+              element={<QuizCorrectNotePage />}
+            />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Button from '../components/Button';
 import { Description, Heading2 } from '../designs/typographys';
-import test_image from '../assets/img/test_image.png';
+import test_image from '../assets/img/test_image.webp';
 import { Quiz } from '../types/Quiz';
 
 interface QuizStartPageProps {

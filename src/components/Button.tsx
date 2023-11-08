@@ -40,7 +40,7 @@ const ButtonLayout = styled.button<{
         ? css`
               background-color: ${theme.colors.gray300};
               border: none;
-              color: ${theme.colors.gray500};
+              color: ${theme.colors.gray300};
             `
         : css`
               background-color: ${theme.colors.green500};
@@ -55,8 +55,8 @@ const ButtonLayout = styled.button<{
       return disabled
         ? css`
               background-color: transparent;
-              border: 1px solid ${theme.colors.gray500};
-              color: ${theme.colors.gray500};
+              border: 1px solid ${theme.colors.gray300};
+              color: ${theme.colors.gray300};
             `
         : css`
               background-color: transparent;

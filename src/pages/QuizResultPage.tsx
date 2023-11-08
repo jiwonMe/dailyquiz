@@ -68,7 +68,14 @@ const QuizResultPage = (props: QuizResultPageProps) => {
       </InfoBoxWrapper>
       <VerticalSpace size={32} />
       <ButtonBox>
-        <Button variant="secondary">오답노트</Button>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            naviagte(`/quiz/${props.quiz.id}/correct-note`);
+          }}
+        >
+          오답노트
+        </Button>
         <Button
           variant="primary"
           onClick={() => {
@@ -125,15 +132,6 @@ const ButtonBox = styled.div`
   flex-direction: column;
 
   gap: 8px;
-
-  /* position: absolute; */
-  /* bottom: 0; */
-
-  /* center */
-  /* left: 50%; */
-  /* transform: translateX(-50%); */
-
-  /* width: calc(100% - 72px); */
 
   margin-bottom: 60px;
 `;
