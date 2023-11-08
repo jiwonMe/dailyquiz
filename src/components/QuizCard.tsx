@@ -33,6 +33,8 @@ export default QuizCard;
 const QuizCardLayout = styled.div`
   display: flex;
 
+  word-break: keep-all;
+
   background-color: ${({ theme }) => theme.colors.gray50};
   border-radius: 16px;
   padding: 18px 24px;
