@@ -2,12 +2,11 @@ import styled from 'styled-components';
 import { Body, Description } from '../designs/typographys';
 import { FiChevronRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { Quiz } from '../types/Quiz';
 
 interface QuizCardProps {
-  title: string;
-  description: string;
+  quiz: Quiz;
   className?: string;
-  to?: string;
 }
 
 const QuizCard = (props: QuizCardProps) => {
@@ -16,11 +15,13 @@ const QuizCard = (props: QuizCardProps) => {
   return (
     <QuizCardLayout
       className={props.className}
-      onClick={() => props.to && navigate(props.to)}
+      onClick={() => {
+        navigate(`/quiz/${props.quiz.id}`);
+      }}
     >
       <QuizTitleDescriptionBox>
-        <Body>{props.title}</Body>
-        <Description>{props.description}</Description>
+        <Body>{props.quiz.title}</Body>
+        <Description>{props.quiz.description}</Description>
       </QuizTitleDescriptionBox>
       <FiChevronRight size={24} />
     </QuizCardLayout>

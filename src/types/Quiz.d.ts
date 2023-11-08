@@ -14,5 +14,7 @@ export type Quiz = {
     solvedAt: Date;
     solvedAnswers: number[];
     score: number;
+    correctCount: number;
+    timeSpent: number; // seconds
   }[];
 };

@@ -3,20 +3,46 @@ import Button from '../components/Button';
 import VerticalSpace from '../components/VerticalSpace';
 import { Body, Description, Heading2 } from '../designs/typographys';
 import ProgressCircle from '../components/ProgressCircle';
+import { Quiz } from '../types/Quiz';
+import { useNavigate } from 'react-router-dom';
 
-const QuizResultPage = () => {
+interface QuizResultPageProps {
+  quiz: Quiz;
+}
+
+const QuizResultPage = (props: QuizResultPageProps) => {
+  const naviagte = useNavigate();
+
   return (
     <QuizResultPageLayout>
       <VerticalSpace size={36} />
       <TtileBox>
         <Heading2>테스트 결과</Heading2>
-        <Body>페스티벌 중독 테스트</Body>
+        <Body>{props.quiz.title}</Body>
       </TtileBox>
       <ChartBox>
-        <ProgressCircle progress={80} />
+        <ProgressCircle
+          progress={
+            props.quiz.solvedHistory.find((history) => history.userId === 1)
+              ?.score || 0
+          }
+        />
         <ScoreBox>
-          <ScoreText>80점</ScoreText>
-          <Description>2분 32초</Description>
+          <ScoreText>
+            {props.quiz.solvedHistory.find((history) => history.userId === 1)
+              ?.score || 0}
+            점
+          </ScoreText>
+          <Description>
+            {Math.floor(
+              (props.quiz.solvedHistory.find((history) => history.userId === 1)
+                ?.timeSpent || 0) / 60
+            )}
+            분{' '}
+            {(props.quiz.solvedHistory.find((history) => history.userId === 1)
+              ?.timeSpent || 0) % 60}
+            초
+          </Description>
         </ScoreBox>
       </ChartBox>
       <VerticalSpace size={32} />
@@ -24,17 +50,33 @@ const QuizResultPage = () => {
       <InfoBoxWrapper>
         <CorrectnessInfoBox>
           <Description>맞은 개수</Description>
-          <Body>4개</Body>
+          <Body>
+            {props.quiz.solvedHistory.find((history) => history.userId === 1)
+              ?.correctCount || 0}
+            개
+          </Body>
         </CorrectnessInfoBox>
         <CorrectnessInfoBox>
           <Description>틀린 개수</Description>
-          <Body>1개</Body>
+          <Body>
+            {props.quiz.problems.length -
+              (props.quiz.solvedHistory.find((history) => history.userId === 1)
+                ?.correctCount || 0)}
+            개
+          </Body>
         </CorrectnessInfoBox>
       </InfoBoxWrapper>
       <VerticalSpace size={32} />
       <ButtonBox>
         <Button variant="secondary">오답노트</Button>
-        <Button variant="primary">확인</Button>
+        <Button
+          variant="primary"
+          onClick={() => {
+            naviagte('/');
+          }}
+        >
+          확인
+        </Button>
       </ButtonBox>
     </QuizResultPageLayout>
   );

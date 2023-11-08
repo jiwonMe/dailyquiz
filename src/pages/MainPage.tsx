@@ -3,8 +3,11 @@ import { Description, Heading2 } from '../designs/typographys';
 import { FiUser } from 'react-icons/fi';
 import VerticalSpace from '../components/VerticalSpace';
 import QuizCard from '../components/QuizCard';
+import dummyData from '../types/dummyData';
 
 const MainPage = () => {
+  const quizzes = dummyData.quizzes;
+
   return (
     <MainPageLayout>
       <ProfileBox>
@@ -15,16 +18,9 @@ const MainPage = () => {
         <Description>매일 업데이트 되는 테스트</Description>
       </TitleBox>
       <QuizCardContainer>
-        <QuizCard
-          title="페스티벌 중독 테스트"
-          description="춤을 추며 절망이랑 싸울거야"
-          to="/quiz/1"
-        />
-        <QuizCard
-          title="MBTI 테스트"
-          description="저는 정상입니다"
-          to="/quiz/2"
-        />
+        {quizzes.map((quiz) => (
+          <QuizCard key={quiz.id} quiz={quiz} />
+        ))}
       </QuizCardContainer>
       <VerticalSpace size={16} />
       <Description className="contact">
