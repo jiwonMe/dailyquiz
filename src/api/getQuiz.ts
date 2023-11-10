@@ -1,5 +1,3 @@
-// get quiz from opentdb (https://opentdb.com/api.php?amount=10&category=12&difficulty=medium&type=multiple) use axios
-
 import type { TDBApiResponse } from '../types/opentdb';
 import type { Problem } from '../types/Problem';
 

@@ -5,17 +5,8 @@ import styled, { ThemeProvider } from 'styled-components';
 import { FiChevronRight } from 'react-icons/fi';
 import { Quiz } from '../types/Quiz';
 import { Body, Description } from '../designs/typographys';
+import theme from '../designs/theme';
 
-// Assuming you have a theme object that you pass to the ThemeProvider
-const theme = {
-  colors: {
-    gray50: '#F0F0F0',
-    gray100: '#E0E0E0',
-    // ... other colors used in your theme
-  },
-};
-
-// Mocked quiz data
 const mockQuiz: Quiz = {
   id: '1',
   title: 'Sample Quiz Title',
