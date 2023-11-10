@@ -3,44 +3,12 @@ import { Description, Heading2 } from '../designs/typographys';
 import { FiUser } from 'react-icons/fi';
 import VerticalSpace from '../components/VerticalSpace';
 import QuizCard from '../components/QuizCard';
-import { useEffect } from 'react';
-import { getQuiz } from '../api/getQuiz';
-import useAppStore from '../stores/appStore';
+import useResetQuiz from '../hooks/useResetQuiz';
+import useQuizzes from '../hooks/useQuizzes';
 
 const MainPage = () => {
-  const {
-    quizList,
-    setQuizList,
-    setCurrentTime,
-    setCurrentProblemIndex,
-    setCurrentQuiz,
-    setCurrentSelectedAnswerIndexList,
-  } = useAppStore();
-
-  // reset all
-  useEffect(() => {
-    setCurrentSelectedAnswerIndexList([]);
-    setCurrentProblemIndex(0);
-    setCurrentQuiz(null);
-    setCurrentTime(0);
-  }, []);
-
-  // set entire quizzes to store
-  useEffect(() => {
-    // if there is no quizList in store, load 5 quizzes
-    if (quizList.length === 0) {
-      (async () => {
-        // load 5 quizzes using getQuiz function
-        const quizzes = await Promise.all(
-          [1, 2, 3, 4, 5].map(() => {
-            return getQuiz();
-          })
-        );
-
-        setQuizList(quizzes);
-      })();
-    }
-  }, []);
+  useResetQuiz(); // Resets quiz state on component mount
+  const quizList = useQuizzes(); // Fetches quizzes if not already loaded
 
   return (
     <MainPageLayout>
