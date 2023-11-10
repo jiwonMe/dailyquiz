@@ -27,8 +27,7 @@ DailyQuiz is an interactive web application designed to provide users with daily
 
 ## Design System
 
-<!-- figma embed -->
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FjgDYGw9Ej04HrRVh0Zrcj1%2F%25EC%2598%25A4%25EB%258A%2598%25EC%259D%2598-%25ED%2580%25B4%25EC%25A6%2588-UI%3Ftype%3Ddesign%26node-id%3D0%253A1%26mode%3Ddesign%26t%3DmGEUJgdHPyNDJ1Vn-1" allowfullscreen></iframe>
+We used [figma](https://www.figma.com/file/jgDYGw9Ej04HrRVh0Zrcj1/%EC%98%A4%EB%8A%98%EC%9D%98-%ED%80%B4%EC%A6%88-UI?type=design&node-id=0%3A1&mode=design&t=mGEUJgdHPyNDJ1Vn-1) to design the UI of the application.
 
 ## Getting Started
 
