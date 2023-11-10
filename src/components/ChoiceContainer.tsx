@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import ChoiceCell from './ChoiceCell';
 import { Description } from '../designs/typographys';
 
-interface ChoiceContainerProps {
+export interface ChoiceContainerProps {
   choices: string[];
   selectedChoice: string | null;
   answerChoice: string | null;

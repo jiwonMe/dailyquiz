@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Description } from '../designs/typographys';
 
-interface ToastProps {
+export interface ToastProps {
   children?: React.ReactNode;
   duration?: number;
 }

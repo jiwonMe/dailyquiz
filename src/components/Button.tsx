@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { ButtonText } from '../designs/typographys';
 
-interface ButtonProps {
+export interface ButtonProps {
   variant: 'primary' | 'secondary';
   disabled?: boolean;
   children: React.ReactNode;

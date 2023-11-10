@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-interface ProgressBarProps {
+export interface ProgressBarProps {
   progressed: number;
   className?: string;
 }
 
-const ProgressBar = (props: ProgressBarProps) => {
+export const ProgressBar = (props: ProgressBarProps) => {
   return (
     <ProgressBarLayout className={props.className}>
       <ProgressedBar progressed={props.progressed} />

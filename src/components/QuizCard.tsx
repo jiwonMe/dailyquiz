@@ -4,7 +4,7 @@ import { FiChevronRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { Quiz } from '../types/Quiz';
 
-interface QuizCardProps {
+export interface QuizCardProps {
   quiz: Quiz;
   className?: string;
 }

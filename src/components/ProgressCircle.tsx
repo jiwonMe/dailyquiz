@@ -11,7 +11,7 @@ const calculateProgress = (value: number, radius: number) => {
   };
 };
 
-interface ProgressCircleProps {
+export interface ProgressCircleProps {
   progress: number;
   className?: string;
 }
