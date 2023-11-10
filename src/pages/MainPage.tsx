@@ -8,7 +8,22 @@ import { getQuiz } from '../api/getQuiz';
 import useAppStore from '../stores/appStore';
 
 const MainPage = () => {
-  const { quizList, setQuizList } = useAppStore();
+  const {
+    quizList,
+    setQuizList,
+    setCurrentTime,
+    setCurrentProblemIndex,
+    setCurrentQuiz,
+    setCurrentSelectedAnswerIndexList,
+  } = useAppStore();
+
+  // reset all
+  useEffect(() => {
+    setCurrentSelectedAnswerIndexList([]);
+    setCurrentProblemIndex(0);
+    setCurrentQuiz(null);
+    setCurrentTime(0);
+  }, []);
 
   // set entire quizzes to store
   useEffect(() => {

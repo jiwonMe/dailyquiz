@@ -8,13 +8,16 @@ interface AppStore {
   setQuizList: (quizList: Quiz[]) => void;
 
   currentQuiz: Quiz | null;
-  setCurrentQuiz: (quiz: Quiz) => void;
+  setCurrentQuiz: (quiz: Quiz | null) => void;
 
   currentProblemIndex: number;
   setCurrentProblemIndex: (index: number) => void;
 
   currentSelectedAnswerIndexList: number[];
   setCurrentSelectedAnswerIndexList: (answers: number[]) => void;
+
+  currentTime: number; // seconds
+  setCurrentTime: (time: number) => void;
 }
 
 const useAppStore = create<AppStore>()(
@@ -43,6 +46,12 @@ const useAppStore = create<AppStore>()(
         setCurrentSelectedAnswerIndexList: (answers) =>
           set((state) => {
             state.currentSelectedAnswerIndexList = answers;
+          }),
+
+        currentTime: 0,
+        setCurrentTime: (time) =>
+          set((state) => {
+            state.currentTime = time;
           }),
       }))
     ),

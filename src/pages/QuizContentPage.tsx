@@ -28,18 +28,20 @@ const QuizContentPage = ({
 }: QuizContentPageProps) => {
   const [openAnswer, setOpenAnswer] = useState(false);
 
-  const { currentSelectedAnswerIndexList, setCurrentSelectedAnswerIndexList } =
-    useAppStore();
+  const {
+    currentSelectedAnswerIndexList,
+    setCurrentSelectedAnswerIndexList,
+    currentTime,
+    setCurrentTime,
+  } = useAppStore();
 
   const [selectedChoiceNumber, setSelectedChoiceNumber] = useState<
     number | null
   >(null);
 
-  const [tick, setTick] = useState(0);
-
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setTick(tick + 1);
+    const timer = setInterval(() => {
+      setCurrentTime(currentTime + 1);
     }, 1000);
 
     return () => {
@@ -65,7 +67,7 @@ const QuizContentPage = ({
         </Toast>
       )}
       <TopInfoBox>
-        <TimeDisplay tick={tick} />
+        <TimeDisplay tick={currentTime} />
         <Description>
           {/* remain problems */}
           {problems.length - problemIndex - 1}문제 남음

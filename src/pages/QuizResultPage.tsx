@@ -14,7 +14,7 @@ const QuizResultPage = () => {
     currentQuiz,
     setCurrentQuiz,
     currentSelectedAnswerIndexList,
-    setCurrentSelectedAnswerIndexList,
+    currentTime,
   } = useAppStore();
 
   useEffect(() => {
@@ -45,15 +45,12 @@ const QuizResultPage = () => {
           userId: 1,
           score,
           correctCount,
-          timeSpent: 0,
+          timeSpent: currentTime,
           solvedAt: new Date(),
           solvedAnswers: currentSelectedAnswerIndexList,
         },
       ],
     });
-
-    // reset currentSelectedAnswerIndexList
-    setCurrentSelectedAnswerIndexList([]);
   }, []);
 
   if (currentQuiz === null || currentQuiz.solvedHistory.length === 0) {
