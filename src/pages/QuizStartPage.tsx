@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import Button from '../components/Button';
 import { Description, Heading2 } from '../designs/typographys';
-import test_image from '../assets/img/test_image.webp';
 import { Quiz } from '../types/Quiz';
+import tempImage from '../assets/img/temp_image.png';
+
+import he from 'he';
 
 interface QuizStartPageProps {
   quiz: Quiz;
@@ -12,10 +14,10 @@ interface QuizStartPageProps {
 const QuizStartPage = (props: QuizStartPageProps) => {
   return (
     <QuizStartPageLayout>
-      <QuizImageBox src={test_image} />
+      <QuizImageBox src={tempImage} />
       <TitleBox>
         <Heading2>{props.quiz.title}</Heading2>
-        <Description>{props.quiz.description}</Description>
+        <Description>{he.decode(props.quiz.description)}</Description>
       </TitleBox>
       <TestDescriptionBox>
         <Description>
@@ -41,6 +43,8 @@ const QuizImageBox = styled.img`
   width: 256px;
   height: 256px;
   margin-bottom: 28px;
+
+  border: 1px solid ${({ theme }) => theme.colors.gray100};
 
   border-radius: 24px;
 `;

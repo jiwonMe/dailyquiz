@@ -25,6 +25,8 @@ const mockQuiz: Quiz = {
   createdAt: new Date(),
   updatedAt: new Date(),
 
+  image: 'https://picsum.photos/256',
+
   // Mocked user data
   author: 'sample user',
   solvedHistory: [],

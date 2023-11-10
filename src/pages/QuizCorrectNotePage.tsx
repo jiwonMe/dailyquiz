@@ -10,7 +10,7 @@ import VerticalSpace from '../components/VerticalSpace';
 import { useNavigate } from 'react-router-dom';
 import useAppStore from '../stores/appStore';
 
-import sanitizeHtml from 'sanitize-html';
+import he from 'he';
 
 const QuizCorrectNotePage = () => {
   const navigate = useNavigate();
@@ -40,7 +40,9 @@ const QuizCorrectNotePage = () => {
 
       <ProblemContentBox>
         <Heading2>Q{problemNumber + 1}</Heading2>
-        <Heading3>{currentQuiz.problems[problemNumber].statement}</Heading3>
+        <Heading3>
+          {he.decode(currentQuiz.problems[problemNumber].statement)}
+        </Heading3>
       </ProblemContentBox>
 
       <ChoiceContainer
@@ -64,15 +66,11 @@ const QuizCorrectNotePage = () => {
       <CommentaryBox>
         <Body>
           <b>정답 </b>
-          <Body
-            dangerouslySetInnerHTML={{
-              __html: sanitizeHtml(
-                currentQuiz.problems[problemNumber].choices[
-                  currentQuiz.problems[problemNumber].answer
-                ]
-              ),
-            }}
-          />
+          {he.decode(
+            currentQuiz.problems[problemNumber].choices[
+              currentQuiz.problems[problemNumber].answer
+            ]
+          )}
           <br />
           <b>내가 선택한 답 </b>
           <span
@@ -83,15 +81,11 @@ const QuizCorrectNotePage = () => {
                 : 'wrong'
             }
           >
-            <Body
-              dangerouslySetInnerHTML={{
-                __html: sanitizeHtml(
-                  currentQuiz.problems[problemNumber].choices[
-                    solvedAnswers[problemNumber]
-                  ]
-                ),
-              }}
-            />
+            {he.decode(
+              currentQuiz.problems[problemNumber].choices[
+                solvedAnswers[problemNumber]
+              ]
+            )}
           </span>
         </Body>
       </CommentaryBox>

@@ -13,7 +13,7 @@ import ProgressBar from '../components/ProgressBar';
 import TimeDisplay from '../components/TimeDisplay';
 import useAppStore from '../stores/appStore';
 
-import sanitizeHtml from 'sanitize-html';
+import he from 'he';
 
 interface QuizContentPageProps {
   problems: Problem[];
@@ -76,11 +76,11 @@ const QuizContentPage = ({
 
       <ProblemContentBox>
         <Heading2>Q{problemIndex + 1}</Heading2>
-        <Heading3
-          dangerouslySetInnerHTML={{
-            __html: sanitizeHtml(problems[problemIndex].statement),
-          }}
-        />
+        <Heading3>
+          {he.decode(
+            problems[problemIndex].choices[problems[problemIndex].answer]
+          )}
+        </Heading3>
       </ProblemContentBox>
 
       <ChoiceContainer

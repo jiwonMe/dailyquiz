@@ -9,6 +9,8 @@ export type Quiz = {
 
   author: string;
 
+  image: string;
+
   solvedHistory: {
     userId: number;
     solvedAt: Date;

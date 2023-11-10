@@ -4,6 +4,8 @@ import { FiChevronRight } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { Quiz } from '../types/Quiz';
 
+import he from 'he';
+
 export interface QuizCardProps {
   quiz: Quiz;
   className?: string;
@@ -21,14 +23,19 @@ const QuizCard = (props: QuizCardProps) => {
     >
       <QuizTitleDescriptionBox>
         <Body>{props.quiz.title}</Body>
-        <Description>{props.quiz.description}</Description>
+        <Description>{he.decode(props.quiz.description)}</Description>
       </QuizTitleDescriptionBox>
-      <FiChevronRight size={24} />
+      <ChevronRight size={24} />
     </QuizCardLayout>
   );
 };
 
 export default QuizCard;
+
+const ChevronRight = styled(FiChevronRight)`
+  min-width: 24px;
+  min-height: 24px;
+`;
 
 const QuizCardLayout = styled.div`
   display: flex;

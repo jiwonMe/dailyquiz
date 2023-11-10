@@ -8,11 +8,13 @@ import { Quiz } from '../types/Quiz';
 
 export const getQuiz = async (): Promise<Quiz> => {
   const response = await fetch(
-    'https://opentdb.com/api.php?amount=10&category=12&difficulty=medium&type=multiple'
+    `https://opentdb.com/api.php?amount=10&category=${Math.floor(
+      Math.random() * 33
+    )}&difficulty=medium&type=multiple`
   );
   const data = (await response.json()) as TDBApiResponse;
-  const title = 'Quiz from opentdb';
-  const description = 'Quiz from opentdb';
+  const title = data.results[0].category;
+  const description = data.results[0].question;
 
   const problems = data.results.map((problem, index) => {
     const choices = problem.incorrect_answers.concat(problem.correct_answer);
@@ -32,6 +34,8 @@ export const getQuiz = async (): Promise<Quiz> => {
     title,
     description,
     problems,
+
+    image: `https://picsum.photos/seed/${uuidv4()}/256`,
 
     createdAt: new Date(),
     updatedAt: new Date(),
