@@ -76,11 +76,7 @@ const QuizContentPage = ({
 
       <ProblemContentBox>
         <Heading2>Q{problemIndex + 1}</Heading2>
-        <Heading3>
-          {he.decode(
-            problems[problemIndex].choices[problems[problemIndex].answer]
-          )}
-        </Heading3>
+        <Heading3>{he.decode(problems[problemIndex].statement)}</Heading3>
       </ProblemContentBox>
 
       <ChoiceContainer
