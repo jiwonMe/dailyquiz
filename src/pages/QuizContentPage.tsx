@@ -3,7 +3,7 @@ import { Description, Heading2, Heading3 } from '../designs/typographys';
 
 import ChoiceContainer from '../components/ChoiceContainer';
 import Button from '../components/Button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Problem } from '../types/Problem';
 import Toast from '../components/Toast';
 
@@ -14,6 +14,7 @@ import TimeDisplay from '../components/TimeDisplay';
 import useAppStore from '../stores/appStore';
 
 import he from 'he';
+import useTimer from '../hooks/useTimer';
 
 interface QuizContentPageProps {
   problems: Problem[];
@@ -26,28 +27,16 @@ const QuizContentPage = ({
   problemIndex,
   setProblemIndex,
 }: QuizContentPageProps) => {
+  const currentTime = useTimer();
+
   const [openAnswer, setOpenAnswer] = useState(false);
 
-  const {
-    currentSelectedAnswerIndexList,
-    setCurrentSelectedAnswerIndexList,
-    currentTime,
-    setCurrentTime,
-  } = useAppStore();
+  const { currentSelectedAnswerIndexList, setCurrentSelectedAnswerIndexList } =
+    useAppStore();
 
   const [selectedChoiceNumber, setSelectedChoiceNumber] = useState<
     number | null
   >(null);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(currentTime + 1);
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  });
 
   return (
     <QuizContentPageLayout>

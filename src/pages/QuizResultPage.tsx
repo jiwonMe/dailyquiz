@@ -4,58 +4,19 @@ import VerticalSpace from '../components/VerticalSpace';
 import { Body, Description, Heading2 } from '../designs/typographys';
 import ProgressCircle from '../components/ProgressCircle';
 import { useNavigate } from 'react-router-dom';
-import useAppStore from '../stores/appStore';
-import { useEffect } from 'react';
+import useQuizResult from '../hooks/useQuizResult';
 
 const QuizResultPage = () => {
   const naviagte = useNavigate();
+  const currentQuiz = useQuizResult();
 
-  const {
-    currentQuiz,
-    setCurrentQuiz,
-    currentSelectedAnswerIndexList,
-    currentTime,
-  } = useAppStore();
-
-  useEffect(() => {
-    if (currentQuiz === null) {
-      return;
-    }
-
-    // calculate correctCount
-    let correctCount = 0;
-    for (let i = 0; i < currentQuiz.problems.length; i++) {
-      if (
-        currentQuiz.problems[i].answer === currentSelectedAnswerIndexList[i] // if correct
-      ) {
-        correctCount++;
-      }
-    }
-
-    const score = Math.floor(
-      (correctCount / currentQuiz.problems.length) * 100
-    );
-
-    // update solvedHistory
-    setCurrentQuiz({
-      ...currentQuiz,
-      solvedHistory: [
-        ...currentQuiz.solvedHistory,
-        {
-          userId: 1,
-          score,
-          correctCount,
-          timeSpent: currentTime,
-          solvedAt: new Date(),
-          solvedAnswers: currentSelectedAnswerIndexList,
-        },
-      ],
-    });
-  }, []);
-
-  if (currentQuiz === null || currentQuiz.solvedHistory.length === 0) {
+  if (!currentQuiz || currentQuiz.solvedHistory.length === 0) {
     return <div>Loading...</div>;
   }
+
+  const latestHistory =
+    currentQuiz.solvedHistory[currentQuiz.solvedHistory.length - 1];
+  const { score, correctCount, timeSpent } = latestHistory;
 
   return (
     <QuizResultPageLayout>
@@ -65,27 +26,11 @@ const QuizResultPage = () => {
         <Body>{currentQuiz.title}</Body>
       </TtileBox>
       <ChartBox>
-        <ProgressCircle
-          progress={
-            currentQuiz.solvedHistory.find((history) => history.userId === 1)
-              ?.score || 0
-          }
-        />
+        <ProgressCircle progress={score || 0} />
         <ScoreBox>
-          <ScoreText>
-            {currentQuiz.solvedHistory.find((history) => history.userId === 1)
-              ?.score || 0}
-            점
-          </ScoreText>
+          <ScoreText>{score || 0}점</ScoreText>
           <Description>
-            {Math.floor(
-              (currentQuiz.solvedHistory.find((history) => history.userId === 1)
-                ?.timeSpent || 0) / 60
-            )}
-            분{' '}
-            {(currentQuiz.solvedHistory.find((history) => history.userId === 1)
-              ?.timeSpent || 0) % 60}
-            초
+            {Math.floor((timeSpent || 0) / 60)}분 {(timeSpent || 0) % 60}초
           </Description>
         </ScoreBox>
       </ChartBox>
@@ -94,20 +39,11 @@ const QuizResultPage = () => {
       <InfoBoxWrapper>
         <CorrectnessInfoBox>
           <Description>맞은 개수</Description>
-          <Body>
-            {currentQuiz.solvedHistory.find((history) => history.userId === 1)
-              ?.correctCount || 0}
-            개
-          </Body>
+          <Body>{correctCount || 0}개</Body>
         </CorrectnessInfoBox>
         <CorrectnessInfoBox>
           <Description>틀린 개수</Description>
-          <Body>
-            {currentQuiz.problems.length -
-              (currentQuiz.solvedHistory.find((history) => history.userId === 1)
-                ?.correctCount || 0)}
-            개
-          </Body>
+          <Body>{currentQuiz.problems.length - (correctCount || 0)}개</Body>
         </CorrectnessInfoBox>
       </InfoBoxWrapper>
       <VerticalSpace size={32} />

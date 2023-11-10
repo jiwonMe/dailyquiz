@@ -10,7 +10,7 @@ const QuizPage = () => {
 
   const { quizList, currentQuiz, setCurrentQuiz } = useAppStore();
 
-  const [problemIndex, setProblemIndex] = useState(-1); // -1: before start, 0 ~ 4: problem number, 5: result
+  const [problemIndex, setProblemIndex] = useState(-1);
 
   // if currentQuiz is not set, set currentQuiz
   useEffect(() => {
