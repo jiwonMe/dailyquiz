@@ -3,10 +3,29 @@ import { Description, Heading2 } from '../designs/typographys';
 import { FiUser } from 'react-icons/fi';
 import VerticalSpace from '../components/VerticalSpace';
 import QuizCard from '../components/QuizCard';
-import dummyData from '../types/dummyData';
+import { useEffect } from 'react';
+import { getQuiz } from '../api/getQuiz';
+import useAppStore from '../stores/appStore';
 
 const MainPage = () => {
-  const quizzes = dummyData.quizzes;
+  const { quizList, setQuizList } = useAppStore();
+
+  // set entire quizzes to store
+  useEffect(() => {
+    // if there is no quizList in store, load 5 quizzes
+    if (quizList.length === 0) {
+      (async () => {
+        // load 5 quizzes using getQuiz function
+        const quizzes = await Promise.all(
+          [1, 2, 3, 4, 5].map(() => {
+            return getQuiz();
+          })
+        );
+
+        setQuizList(quizzes);
+      })();
+    }
+  }, []);
 
   return (
     <MainPageLayout>
@@ -18,7 +37,7 @@ const MainPage = () => {
         <Description>매일 업데이트 되는 테스트</Description>
       </TitleBox>
       <QuizCardContainer>
-        {quizzes.map((quiz) => (
+        {quizList.map((quiz) => (
           <QuizCard key={quiz.id} quiz={quiz} />
         ))}
       </QuizCardContainer>

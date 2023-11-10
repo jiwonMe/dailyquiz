@@ -3,43 +3,90 @@ import Button from '../components/Button';
 import VerticalSpace from '../components/VerticalSpace';
 import { Body, Description, Heading2 } from '../designs/typographys';
 import ProgressCircle from '../components/ProgressCircle';
-import { Quiz } from '../types/Quiz';
 import { useNavigate } from 'react-router-dom';
+import useAppStore from '../stores/appStore';
+import { useEffect } from 'react';
 
-interface QuizResultPageProps {
-  quiz: Quiz;
-}
-
-const QuizResultPage = (props: QuizResultPageProps) => {
+const QuizResultPage = () => {
   const naviagte = useNavigate();
+
+  const {
+    currentQuiz,
+    setCurrentQuiz,
+    currentSelectedAnswerIndexList,
+    setCurrentSelectedAnswerIndexList,
+  } = useAppStore();
+
+  useEffect(() => {
+    if (currentQuiz === null) {
+      return;
+    }
+
+    // calculate correctCount
+    let correctCount = 0;
+    for (let i = 0; i < currentQuiz.problems.length; i++) {
+      if (
+        currentQuiz.problems[i].answer === currentSelectedAnswerIndexList[i] // if correct
+      ) {
+        correctCount++;
+      }
+    }
+
+    const score = Math.floor(
+      (correctCount / currentQuiz.problems.length) * 100
+    );
+
+    // update solvedHistory
+    setCurrentQuiz({
+      ...currentQuiz,
+      solvedHistory: [
+        ...currentQuiz.solvedHistory,
+        {
+          userId: 1,
+          score,
+          correctCount,
+          timeSpent: 0,
+          solvedAt: new Date(),
+          solvedAnswers: currentSelectedAnswerIndexList,
+        },
+      ],
+    });
+
+    // reset currentSelectedAnswerIndexList
+    setCurrentSelectedAnswerIndexList([]);
+  }, []);
+
+  if (currentQuiz === null || currentQuiz.solvedHistory.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <QuizResultPageLayout>
       <VerticalSpace size={36} />
       <TtileBox>
         <Heading2>테스트 결과</Heading2>
-        <Body>{props.quiz.title}</Body>
+        <Body>{currentQuiz.title}</Body>
       </TtileBox>
       <ChartBox>
         <ProgressCircle
           progress={
-            props.quiz.solvedHistory.find((history) => history.userId === 1)
+            currentQuiz.solvedHistory.find((history) => history.userId === 1)
               ?.score || 0
           }
         />
         <ScoreBox>
           <ScoreText>
-            {props.quiz.solvedHistory.find((history) => history.userId === 1)
+            {currentQuiz.solvedHistory.find((history) => history.userId === 1)
               ?.score || 0}
             점
           </ScoreText>
           <Description>
             {Math.floor(
-              (props.quiz.solvedHistory.find((history) => history.userId === 1)
+              (currentQuiz.solvedHistory.find((history) => history.userId === 1)
                 ?.timeSpent || 0) / 60
             )}
             분{' '}
-            {(props.quiz.solvedHistory.find((history) => history.userId === 1)
+            {(currentQuiz.solvedHistory.find((history) => history.userId === 1)
               ?.timeSpent || 0) % 60}
             초
           </Description>
@@ -51,7 +98,7 @@ const QuizResultPage = (props: QuizResultPageProps) => {
         <CorrectnessInfoBox>
           <Description>맞은 개수</Description>
           <Body>
-            {props.quiz.solvedHistory.find((history) => history.userId === 1)
+            {currentQuiz.solvedHistory.find((history) => history.userId === 1)
               ?.correctCount || 0}
             개
           </Body>
@@ -59,8 +106,8 @@ const QuizResultPage = (props: QuizResultPageProps) => {
         <CorrectnessInfoBox>
           <Description>틀린 개수</Description>
           <Body>
-            {props.quiz.problems.length -
-              (props.quiz.solvedHistory.find((history) => history.userId === 1)
+            {currentQuiz.problems.length -
+              (currentQuiz.solvedHistory.find((history) => history.userId === 1)
                 ?.correctCount || 0)}
             개
           </Body>
@@ -71,7 +118,7 @@ const QuizResultPage = (props: QuizResultPageProps) => {
         <Button
           variant="secondary"
           onClick={() => {
-            naviagte(`/quiz/${props.quiz.id}/correct-note`);
+            naviagte(`/quiz/${currentQuiz.id}/correct-note`);
           }}
         >
           오답노트

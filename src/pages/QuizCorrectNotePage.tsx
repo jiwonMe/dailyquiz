@@ -1,50 +1,60 @@
 import styled from 'styled-components';
 import Button from '../components/Button';
 
-import { useParams } from 'react-router-dom';
-import dummyData from '../types/dummyData';
 import ProgressBar from '../components/ProgressBar';
 import { Body, Heading2, Heading3 } from '../designs/typographys';
 import ChoiceContainer from '../components/ChoiceContainer';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import VerticalSpace from '../components/VerticalSpace';
 
 import { useNavigate } from 'react-router-dom';
+import useAppStore from '../stores/appStore';
+
+import sanitizeHtml from 'sanitize-html';
 
 const QuizCorrectNotePage = () => {
   const navigate = useNavigate();
 
-  const { quizId } = useParams();
-
   const [problemNumber, setProblemNumber] = useState(0); // -1: before start
 
-  const solvedAnswers = dummyData.quizzes
-    .find((quiz) => quiz.id === Number(quizId))!
-    .solvedHistory.find((history) => history.userId === 1)!.solvedAnswers;
+  const { currentQuiz } = useAppStore();
 
-  const quiz = dummyData.quizzes.find((quiz) => quiz.id === Number(quizId))!;
+  const solvedAnswers = useMemo(() => {
+    if (currentQuiz === null) {
+      return [];
+    }
 
+    return currentQuiz.solvedHistory.find(
+      (solvedHistory) => solvedHistory.userId === 1
+    )!.solvedAnswers;
+  }, [currentQuiz]);
+
+  if (currentQuiz === null) {
+    return <div>Loading...</div>;
+  }
   return (
     <QuizCorrectNotePageLayout>
       <ProgressBar
-        progressed={((problemNumber + 1) / quiz.problems.length) * 100}
+        progressed={((problemNumber + 1) / currentQuiz.problems.length) * 100}
       />
 
       <ProblemContentBox>
         <Heading2>Q{problemNumber + 1}</Heading2>
-        <Heading3>{quiz.problems[problemNumber].statement}</Heading3>
+        <Heading3>{currentQuiz.problems[problemNumber].statement}</Heading3>
       </ProblemContentBox>
 
       <ChoiceContainer
-        choices={quiz.problems[problemNumber].choices}
+        choices={currentQuiz.problems[problemNumber].choices}
         selectedChoice={
           solvedAnswers[problemNumber] === null
             ? null
-            : quiz.problems[problemNumber].choices[solvedAnswers[problemNumber]]
+            : currentQuiz.problems[problemNumber].choices[
+              solvedAnswers[problemNumber]
+            ]
         }
         answerChoice={
-          quiz.problems[problemNumber].choices[
-            quiz.problems[problemNumber].answer
+          currentQuiz.problems[problemNumber].choices[
+            currentQuiz.problems[problemNumber].answer
           ]
         }
         onSelectChoice={() => {}}
@@ -54,22 +64,34 @@ const QuizCorrectNotePage = () => {
       <CommentaryBox>
         <Body>
           <b>정답 </b>
-          {
-            quiz.problems[problemNumber].choices[
-              quiz.problems[problemNumber].answer
-            ]
-          }
+          <Body
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(
+                currentQuiz.problems[problemNumber].choices[
+                  currentQuiz.problems[problemNumber].answer
+                ]
+              ),
+            }}
+          />
           <br />
           <b>내가 선택한 답 </b>
           <span
             className={
               solvedAnswers[problemNumber] ===
-              quiz.problems[problemNumber].answer
+              currentQuiz.problems[problemNumber].answer
                 ? 'correct'
                 : 'wrong'
             }
           >
-            {quiz.problems[problemNumber].choices[solvedAnswers[problemNumber]]}
+            <Body
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(
+                  currentQuiz.problems[problemNumber].choices[
+                    solvedAnswers[problemNumber]
+                  ]
+                ),
+              }}
+            />
           </span>
         </Body>
       </CommentaryBox>
@@ -87,14 +109,16 @@ const QuizCorrectNotePage = () => {
         <Button
           variant="primary"
           onClick={() => {
-            if (problemNumber === quiz.problems.length - 1) {
+            if (problemNumber === currentQuiz.problems.length - 1) {
               navigate('/');
             } else {
               setProblemNumber(problemNumber + 1);
             }
           }}
         >
-          {problemNumber === quiz.problems.length - 1 ? '마치기' : '다음 문제'}
+          {problemNumber === currentQuiz.problems.length - 1
+            ? '마치기'
+            : '다음 문제'}
         </Button>
       </ButtonBox>
     </QuizCorrectNotePageLayout>

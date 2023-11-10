@@ -1,47 +1,43 @@
 import { useEffect, useState } from 'react';
 import QuizStartPage from './QuizStartPage';
 import QuizContentPage from './QuizContentPage';
-import { Problem } from '../types/Problem';
 import QuizResultPage from './QuizResultPage';
-import dummyData from '../types/dummyData';
 import { useParams } from 'react-router-dom';
+import useAppStore from '../stores/appStore';
 
 const QuizPage = () => {
   const { quizId } = useParams();
 
-  const [problemNumber, setProblemNumber] = useState(-1); // -1: before start, 0 ~ 4: problem number, 5: result
+  const { quizList, currentQuiz, setCurrentQuiz } = useAppStore();
 
-  const [problems, setProblems] = useState<Problem[]>([]);
+  const [problemIndex, setProblemIndex] = useState(-1); // -1: before start, 0 ~ 4: problem number, 5: result
 
-  useEffect(() => {});
-
+  // if currentQuiz is not set, set currentQuiz
   useEffect(() => {
-    setProblems(
-      dummyData.quizzes.find((quiz) => quiz.id === Number(quizId))!.problems
-    );
-  }, []);
+    if (currentQuiz === null) {
+      setCurrentQuiz(quizList.find((quiz) => quiz.id === quizId)!);
+    }
+  });
 
-  if (problemNumber === -1) {
+  if (currentQuiz === null) {
+    return <div>Loading...</div>;
+  } else if (problemIndex === -1) {
     return (
       <QuizStartPage
-        quiz={dummyData.quizzes.find((quiz) => quiz.id === Number(quizId))!}
+        quiz={currentQuiz}
         onClickStartButton={() => {
-          setProblemNumber(0);
+          setProblemIndex(0);
         }}
       />
     );
-  } else if (problemNumber === problems.length) {
-    return (
-      <QuizResultPage
-        quiz={dummyData.quizzes.find((quiz) => quiz.id === Number(quizId))!}
-      />
-    );
+  } else if (problemIndex === currentQuiz.problems.length) {
+    return <QuizResultPage />;
   } else {
     return (
       <QuizContentPage
-        problems={problems}
-        problemNumber={problemNumber}
-        setProblemNumber={setProblemNumber}
+        problems={currentQuiz.problems}
+        problemIndex={problemIndex}
+        setProblemIndex={setProblemIndex}
       />
     );
   }

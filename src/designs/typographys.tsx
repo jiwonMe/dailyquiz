@@ -20,7 +20,7 @@ const Heading3 = styled.h3`
   line-height: 1.25;
 `;
 
-const Body = styled.p`
+const Body = styled.div`
   ${defaultFontCSS}
   color: ${colors.gray700};
   font-size: 1rem;
@@ -28,7 +28,7 @@ const Body = styled.p`
   line-height: normal;
 `;
 
-const Description = styled.p`
+const Description = styled.div`
   ${defaultFontCSS}
   color: ${colors.gray500};
   font-size: 0.875rem;

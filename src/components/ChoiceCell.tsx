@@ -1,6 +1,7 @@
 import styled, { css, keyframes } from 'styled-components';
 import { Description } from '../designs/typographys';
 import { FiCheckCircle, FiXCircle } from 'react-icons/fi';
+import sanitizeHtml from 'sanitize-html';
 
 interface ChoiceCellProps {
   variant?: 'unselected' | 'selected' | 'correct' | 'wrong';
@@ -21,7 +22,11 @@ const ChoiceCell = ({ variant = 'unselected', ...props }: ChoiceCellProps) => {
           }[variant]
         }
       </CellIcon>
-      <Description>{props.children}</Description>
+      <Description
+        dangerouslySetInnerHTML={{
+          __html: sanitizeHtml(String(props.children)),
+        }}
+      />
     </ChoiceCellLayout>
   );
 };

@@ -11,19 +11,25 @@ import { FiSmile, FiFrown } from 'react-icons/fi';
 import theme from '../designs/theme';
 import ProgressBar from '../components/ProgressBar';
 import TimeDisplay from '../components/TimeDisplay';
+import useAppStore from '../stores/appStore';
+
+import sanitizeHtml from 'sanitize-html';
 
 interface QuizContentPageProps {
   problems: Problem[];
-  problemNumber: number;
-  setProblemNumber: React.Dispatch<React.SetStateAction<number>>;
+  problemIndex: number;
+  setProblemIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const QuizContentPage = ({
   problems,
-  problemNumber,
-  setProblemNumber,
+  problemIndex,
+  setProblemIndex,
 }: QuizContentPageProps) => {
   const [openAnswer, setOpenAnswer] = useState(false);
+
+  const { currentSelectedAnswerIndexList, setCurrentSelectedAnswerIndexList } =
+    useAppStore();
 
   const [selectedChoiceNumber, setSelectedChoiceNumber] = useState<
     number | null
@@ -45,7 +51,7 @@ const QuizContentPage = ({
     <QuizContentPageLayout>
       {openAnswer && (
         <Toast>
-          {selectedChoiceNumber === problems[problemNumber].answer ? (
+          {selectedChoiceNumber === problems[problemIndex].answer ? (
             <ToastMessageBox>
               <FiSmile size={24} color={theme.colors.green500} />
               정답입니다!
@@ -62,26 +68,30 @@ const QuizContentPage = ({
         <TimeDisplay tick={tick} />
         <Description>
           {/* remain problems */}
-          {problems.length - problemNumber - 1}문제 남음
+          {problems.length - problemIndex - 1}문제 남음
         </Description>
       </TopInfoBox>
 
-      <ProgressBar progressed={((problemNumber + 1) / problems.length) * 100} />
+      <ProgressBar progressed={((problemIndex + 1) / problems.length) * 100} />
 
       <ProblemContentBox>
-        <Heading2>Q{problemNumber + 1}</Heading2>
-        <Heading3>{problems[problemNumber].statement}</Heading3>
+        <Heading2>Q{problemIndex + 1}</Heading2>
+        <Heading3
+          dangerouslySetInnerHTML={{
+            __html: sanitizeHtml(problems[problemIndex].statement),
+          }}
+        />
       </ProblemContentBox>
 
       <ChoiceContainer
-        choices={problems[problemNumber].choices}
+        choices={problems[problemIndex].choices}
         selectedChoice={
           selectedChoiceNumber === null
             ? null
-            : problems[problemNumber].choices[selectedChoiceNumber]
+            : problems[problemIndex].choices[selectedChoiceNumber]
         }
         answerChoice={
-          problems[problemNumber].choices[problems[problemNumber].answer]
+          problems[problemIndex].choices[problems[problemIndex].answer]
         }
         onSelectChoice={(choiceNumber: number) => {
           setSelectedChoiceNumber(choiceNumber);
@@ -94,16 +104,21 @@ const QuizContentPage = ({
         disabled={selectedChoiceNumber === null}
         onClick={() => {
           if (openAnswer) {
-            setProblemNumber(problemNumber + 1);
+            setProblemIndex(problemIndex + 1);
             setSelectedChoiceNumber(null);
             setOpenAnswer(false);
           } else {
             setOpenAnswer(true);
+            if (selectedChoiceNumber === null) return;
+            setCurrentSelectedAnswerIndexList([
+              ...currentSelectedAnswerIndexList,
+              selectedChoiceNumber,
+            ]);
           }
         }}
       >
         {openAnswer
-          ? problemNumber === problems.length - 1
+          ? problemIndex === problems.length - 1
             ? '결과보기'
             : '다음문제'
           : '정답확인'}

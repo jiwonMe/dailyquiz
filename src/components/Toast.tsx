@@ -28,7 +28,7 @@ const Toast = ({ children, duration = 3000 }: ToastProps) => {
   }, [duration]);
 
   return (
-    <ToastLayout show={show}>
+    <ToastLayout $show={show}>
       <Description>{children}</Description>
     </ToastLayout>
   );
@@ -36,7 +36,7 @@ const Toast = ({ children, duration = 3000 }: ToastProps) => {
 
 export default styled(Toast)``;
 
-const ToastLayout = styled.div<{ show: boolean }>`
+const ToastLayout = styled.div<{ $show: boolean }>`
   position: fixed;
   z-index: 1000;
 
@@ -71,7 +71,7 @@ const ToastLayout = styled.div<{ show: boolean }>`
 
   transition: opacity 0.5s, top 0.5s;
 
-  pointer-events: ${(props) => (props.show ? 'auto' : 'none')};
+  pointer-events: ${(props) => (props.$show ? 'auto' : 'none')};
 
   ${Description} {
     color: white;
